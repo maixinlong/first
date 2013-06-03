@@ -28,11 +28,12 @@ if sys.getdefaultencoding() != default_encoding:
     sys.setdefaultencoding(default_encoding)
 
 # weibo api访问配置
-APP_KEY = ''      # app key
-APP_SECRET = ''   # app secret
-CALLBACK_URL = '' # callback url 授权回调页,与OAuth2.0 授权设置的一致
-USERID = ''       # 微博用户名                     
-USERPASSWD = ''   # 用户密码
+APP_KEY = '3348709186'      # app key
+APP_SECRET = '03dcd649f6420307849aa1b5bfc6fa78'   # app secret
+CALLBACK_URL = 'https://api.weibo.com/oauth2/default.html' # callback url 授权回调页,与OAuth2.0 授权设置的一致
+USERID = '346330910@qq.com'       # 微博用户名                     
+USERPASSWD = 'mxl@sina.com'   # 用户密码
+AUTH_URL = 'https://api.weibo.com/oauth2/authorize'
 
 # token file path
 save_access_token_file  = 'access_token.txt'
@@ -43,7 +44,8 @@ client = APIClient(app_key=APP_KEY, app_secret=APP_SECRET, redirect_uri=CALLBACK
 
 def make_access_token():
     '''请求access token'''
-    params = urllib.urlencode({'action':'submit','withOfficalFlag':'0','ticket':'','isLoginSina':'', \
+    params = urllib.urlencode(
+        {'action':'submit','withOfficalFlag':'0','ticket':'','isLoginSina':'0', \
         'response_type':'code', \
         'regCallback':'', \
         'redirect_uri':CALLBACK_URL, \
@@ -54,24 +56,20 @@ def make_access_token():
         'passwd':USERPASSWD, \
         })
 
-    login_url = 'https://api.weibo.com/oauth2/authorize'
-
     url = client.get_authorize_url()
-    content = urllib2.urlopen(url)
-    if content:
-        headers = { 'Referer' : url }
-        request = urllib2.Request(login_url, params, headers)
-        opener = get_opener(False)
-        urllib2.install_opener(opener)
-        try:
-            f = opener.open(request)
-            print f.headers.headers
-            return_callback_url = f.geturl
-            # print f.read()
-        except urllib2.HTTPError, e:
-            return_callback_url = e.geturl()
-        # 取到返回的code
-        code = return_callback_url.split('=')[1]
+    
+    #指定header
+    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 6.1; rv:11.0) Gecko/20100101 Firefox/11.0",
+               "Host": "api.weibo.com",
+               "Referer": url
+             }
+
+    headers = {'Referer':url}
+    request = urllib2.Request(url = AUTH_URL,data = params,headers = headers)
+    code_url = urllib2.urlopen(request)
+    code = code_url.geturl().split('code=')[1]
+    print 'code:',code
+
     #得到token
     token = client.request_access_token(code)
     save_access_token(token)
@@ -82,7 +80,7 @@ def save_access_token(token):
     f.write(token['access_token']+' ' + str(token['expires_in']))
     f.close()
 
-@retry(1)
+#@retry(1)
 def apply_access_token():
     '''从本地读取及设置access token'''
     try:
@@ -108,7 +106,7 @@ def apply_access_token():
 
 if __name__ == "__main__":
     apply_access_token()
-
+    
     # 以下为访问微博api的应用逻辑
     # 以接口访问状态为例
     status = client.get.account__rate_limit_status()
