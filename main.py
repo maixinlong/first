@@ -28,11 +28,11 @@ if sys.getdefaultencoding() != default_encoding:
     sys.setdefaultencoding(default_encoding)
 
 # weibo api访问配置
-APP_KEY = '3348709186'      # app key
-APP_SECRET = '03dcd649f6420307849aa1b5bfc6fa78'   # app secret
+APP_KEY = '8709186'      # app key
+APP_SECRET = '49f6420307849aa1b5bfc6fa78'   # app secret
 CALLBACK_URL = 'https://api.weibo.com/oauth2/default.html' # callback url 授权回调页,与OAuth2.0 授权设置的一致
-USERID = '346330910@qq.com'       # 微博用户名                     
-USERPASSWD = 'mxl@sina.com'   # 用户密码
+USERID = '34633.com'       # 微博用户名                     
+USERPASSWD = 'mxl'   # 用户密码
 AUTH_URL = 'https://api.weibo.com/oauth2/authorize'
 
 # token file path
