@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #/usr/bin/env python
-
+#----
 __version__ = '1.0'
 __author__ = 'http://weibo.com/wtmmac'
 
