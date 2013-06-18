@@ -1,0 +1,28 @@
+html { height:100%; }
+body { min-height:100%; height:100%; padding-top:0; }
+.content-wrapper { position:relative; min-height:100%; padding-top:18px; background:url(https://devimages.apple.com.edgekey.net/assets/elements/layout/background_linen.png) 0 0 repeat; background-size:180px; }
+@media only screen and (-webkit-min-device-pixel-ratio:1.5), only screen and (min-device-pixel-ratio:1.5) {
+	.content-wrapper { background-image:url(https://devimages.apple.com.edgekey.net/assets/elements/layout/background_linen_2x.png); }
+}
+.content-spacer { height:60px; }
+.content { margin:0 auto; width:705px; padding:37px 45px 0 50px !important; background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#e7e7e7)); background:-moz-linear-gradient(100% 100% 90deg, #e7e7e7, #fff); background:gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#e7e7e7)); box-shadow:5px 5px 7px rgba(0, 0, 0, .4); }
+.divider { width:698px; margin:22px 0 0 2px; border-top:1px solid #ccc; border-bottom:1px solid #fff; }
+.offscreen { left:-100000px !important; }
+
+#globalheader { height:92px; width:800px; }
+#globalheader h1 a { width:209px; height:46px; top:7px; left:290px; background-image:url(https://devimages.apple.com.edgekey.net/assets/elements/header/developer-logo-linen.png); }
+#globalheader #gh-nav,
+#globalheader #gh-search { display:none; }
+
+#globalfooter { position:absolute; bottom:0; width:100%; margin:0; padding:0; }
+#globalfooter .gf-buy,
+#globalfooter .gf-links { display:none; }
+#globalfooter .gf-sosumi { width:512px; *width:520px; padding-left:0; margin:0 auto 30px auto; border-top:0; font-size:12px; font-weight:bold; color:#ccc; text-shadow:1px 1px #000; } /* padding-top:100px; */
+#globalfooter .gf-sosumi p { margin-bottom:0; }
+#globalfooter .gf-sosumi ul.piped a { padding-left:10px !important; margin-left:10px !important; color:#ccc !important; }
+#globalfooter #localization-links  { display:none; }
+
+.maintenance .header_content { height:400px; width:700px; margin:0 auto; }
+.maintenance .header_content img { top:157px; left:138px; text-align:center; position:relative; }
+.maintenance .header_content p { padding-top:168px; font-size:21px; line-height:28px; text-align:center; color:#CCC; text-shadow:1px 1px #000; }
+

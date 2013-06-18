@@ -1,0 +1,69 @@
+/* set a small content size */
+.content { width:405px; min-height:267px; }
+#globalheader { width:500px; }
+#globalheader h1 a { left:141px; }
+#globalfooter .gf-sosumi { padding-left:3px; }
+#globalfooter .gf-sosumi ul.piped a { padding-left:7px !important; margin-left:7px !important; }
+
+/* style the new content */
+.hero p.intro { font-size:14px; color:#333; }
+.divider { width:499px; position:relative; top:-33px; left:-51px; }
+a.button.large.register-button { position:relative; top:-61px; left:190px; }
+a.button.large.signin-button { position:relative; top:-61px; left:195px; }
+a.button.large.update-info { display:none; }
+a.button.large.password-update { display:none; }
+a.forgot-button { float:left; margin-top:-20px; margin-left:120px; font-size:14px; color:#333 !important; text-shadow:1px 1px #fff; cursor:pointer; }
+
+/* style the predefined form */
+#ds_container .dslabel { font-size:14px; color:#333; text-shadow: 1px 1px white;}
+#ds_container #accountname,
+#ds_container #accountpassword { float:left; width:307px; margin-top:-22px; margin-left:83px; padding:0 4px 0 4px; font-size:14px; }
+#ds_container table { width:100%; }
+#ds_container table table input { display:none; }
+
+/* password expired */
+.password-expired header.hero,
+.password-expired .divider, 
+.password-expired a.forgot-button,
+.password-expired a.register-button,
+.password-expired a.signin-button { display:none; }
+.password-expired .dsform #ds_container h1 { margin-bottom:0; overflow:hidden; height:38px; }
+.password-expired .dstext { display:block; overflow:hidden; font-size:14px; color:#333; }
+.password-expired .dsform #ds_container p { margin-bottom:0; }
+.password-expired .dsrules { display:block; font-size:12px; margin-bottom:10px; margin-top:-10px; margin-left:2px; }
+.password-expired .dsrules ul { margin-left:1px; }
+.password-expired .dsrules ul li { list-style-type:disc; list-style-position:inside; }
+.password-expired .dserror { font-size:12px; }
+.password-expired table { margin-left:-2px; }
+.password-expired label { text-shadow:1px 1px white; }
+.password-expired input { width:384px; padding:0 4px 0 4px; font-size:14px; }
+.password-expired input::-webkit-input-placeholder { color:white; }
+.password-expired input:-moz-placeholder { color:white; }
+.password-expired input[name='2.ChangePassword'] { display:none ;}
+.password-expired a.button.large.password-update { display:block; float:right; margin-right:2px; margin-bottom:40px; margin-top:-10px; }
+
+/* password wrong */
+.password-wrong tr[style] { display:block !important; }
+.password-wrong table td img { visibility:hidden; }
+.password-wrong span.dserror { position:absolute; top:191px; left:138px; font-size:12px; }
+.password-wrong form { margin-top:-34px; }
+.password-wrong tr:nth-of-type(2) { display:none; }
+.password-wrong table:nth-of-type(2) { margin-bottom:13px; }
+.password-wrong a.forgot-button { margin-top:-34px; }
+.password-wrong .divider { top:-26px; }
+
+/* update info */
+.update-info header.hero,
+.update-info .divider, 
+.update-info a.forgot-button,
+.update-info a.button.large.register-button,
+.update-info a.button.large.signin-button { display:none; }
+.update-info .dstext { display:block; overflow:hidden; font-size:14px; color:#333; }
+.update-info table { margin-left:-2px; }
+.update-info table { margin-left:-2px; }
+.update-info label { text-shadow:1px 1px white; }
+.update-info input { width:384px; padding:0 4px 0 4px; margin-bottom:8px; font-size:14px; }
+.update-info input::-webkit-input-placeholder { color:white; }
+.update-info input:-moz-placeholder { color:white; }
+.update-info input[name='8.Continue'] { display:none ;}
+.update-info a.button.large.update-info { display:block; float:right; margin-right:2px; margin-bottom:40px; margin-top:-10px; }
