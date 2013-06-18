@@ -1,0 +1,17 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head>
+<!-- <link rel="stylesheet" type="text/css" media="screen" href="http://newfarm3.dev.haalee.com/images/index/base.css" charset="utf-8">
+<div id="globalheader" data-hires="true">
+<h1><a href="https://developer.apple.com/">Apple Developer</a></h1>
+</div> 
+ -->
+{%for item in url_list%}
+<a href="{{item.0}}" >{{item.1}}</a>&nbsp;
+{%endfor%}
+
+<frameset rows="100,*"> 
+<frame name="top" src="about:blank"> 
+<frame name="bottomFram" src="c.html" id="bottomFram" title="bottomFram"> 
+</frameset> 
+
+</html>
