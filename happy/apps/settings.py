@@ -7,7 +7,7 @@ ADMINS = (
     # ('Your Name', 'your_email@domain.com'),
 )
 
-BASE_ROOT = '/Users/liu1695347_apple/happy'
+BASE_ROOT = '/opt/sites/first/happy'
 BASE_URL = 'http://localhost:8000'
 
 TEMPLATE_DIRS = (
