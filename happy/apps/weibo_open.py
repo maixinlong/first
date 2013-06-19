@@ -7,6 +7,7 @@ from weibo import APIClient
 from cache.mccache import MemcacheClient
 import redis
 import datetime
+from models.weibo_user import WeiboUser
 
 # weibo api访问配置
 APP_KEY = '3348709186'      # app key
@@ -92,6 +93,15 @@ def get_weibo(msg='冷笑话精选'):
     print "用户小头像url",kk['profile_image_url']
     print "用户大头像地址",kk['avatar_large']
     print kk['id']
+    b = []
+    k = client.search.suggestions.users.get(q="时尚",count=100)
+    for item in k:
+        b.append(item['screen_name'])
+    w = WeiboUser.get()
+    w.users['时尚'] = b
+    w.put()
+        
+    return
     #返回json格式 screen_name="时尚经典语录吖"
     k = client.statuses.user_timeline.get(screen_name='时尚经典语录吖',count=200)
     weibo = dict(k)
