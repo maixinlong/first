@@ -6,6 +6,7 @@ import urllib2
 from weibo import APIClient
 from cache.mccache import MemcacheClient
 import redis
+import datetime
 
 # weibo api访问配置
 APP_KEY = '3348709186'      # app key
@@ -19,6 +20,20 @@ client = APIClient(app_key=APP_KEY, app_secret=APP_SECRET,redirect_uri=CALLBACK_
 
 mc = MemcacheClient({"servers":"localhost:11211","default_timeout":0})
 rd = redis.Redis(host='localhost', port=6379, db=1)
+time_dict = {
+             "January":1,
+             "February":2,
+             "March":3,
+             "April":4,
+             "May":5,
+             "Jun":6,
+             "July":7,
+             "August":8,
+             "September":9,
+             "October":10,
+             "November":11,
+             "December":12,
+             }
 
 def weibo_client():
     """微博认证
@@ -60,6 +75,7 @@ def __code():
     request = urllib2.Request(url = AUTH_URL,data = params,headers = headers)
     code_url = urllib2.urlopen(request)
     code = code_url.geturl().split('code=')[1]
+    print 'code',code
     return code
     
 
@@ -70,15 +86,25 @@ def get_weibo(msg='冷笑话精选'):
     count 单页返回的记录条数，最大不超过100，默认为20。 
     """
     client = weibo_client()
-    #返回json格式
-    k = client.statuses.user_timeline.get(screen_name="时尚经典语录吖",count=200)
-    weibo = dict(k)    
-    print weibo['statuses'][0]['text']
-    print weibo['statuses'][0]['id']
-    print weibo['statuses'][1]['id']
-    print weibo['statuses'][len(weibo['statuses'])-1]['created_at']
+    kk = client.users.show.get(screen_name="时尚经典语录吖")
+    print "微博数",kk['statuses_count']
+    print "粉丝数",kk['followers_count']
+    print "用户小头像url",kk['profile_image_url']
+    print "用户大头像地址",kk['avatar_large']
+    print kk['id']
+    #返回json格式 screen_name="时尚经典语录吖"
+    k = client.statuses.user_timeline.get(screen_name='时尚经典语录吖',count=200)
+    weibo = dict(k)
     
-    print len(weibo['statuses'])
+    print weibo['statuses'][0]['text']
+    for kkk,v in weibo['statuses'][0].iteritems():
+        pass
+        #print kkk,'   ',v
+    
+    for item in k['statuses']:
+        created_at = item['created_at'].split(' ')
+        time_str = created_at[len(created_at)-1] + "-" + str(time_dict[created_at[1]]) + '-' + created_at[2]
+        print time_str,item['text']
     #k = client.search.suggestions.users.get(q="时尚",count=100)
     
     return
