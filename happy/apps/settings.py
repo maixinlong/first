@@ -17,6 +17,17 @@ TEMPLATE_DIRS = (
 MANAGERS = ADMINS
 
 ADMIN_PASSWORD = "123"
+MEMCACHE_KEY = "FIRST|MEMCACHE"
+
+ENGINS = {"redis" : {
+        "class" : "cache.redis_client.RedisClient",
+        "config" : {
+            "host" : "localhost",
+            "port" : 6379,
+            "db":1,
+             }
+        },
+      }
 
 DATABASES = {
     'default': {
