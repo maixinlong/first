@@ -148,7 +148,7 @@ def get_content(weibo_type,user_id,debug=False,count=200,force_update=False):
         
         #可能是转帖 所以需要再取一次
         if not s_item.get('original_pic'):
-            if s_item['retweeted_status'].get('original_pic'):
+            if s_item.get('retweeted_status',{}).get('original_pic'):
                 s_item['original_pic'] = s_item['retweeted_status']['original_pic']
             else:
                 #如果没有图片 就pass掉
