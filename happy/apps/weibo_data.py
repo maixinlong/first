@@ -157,7 +157,7 @@ def get_content(weibo_type,user_id,debug=False,count=200,force_update=False):
         #filter列表包含这些内容不保存 可能是广告数据
         if "http://" in s_item['text'] or "包邮" in s_item['text']\
          or "www." in s_item['text'] or re.findall('[0-9]元',s_item['text'])\
-         len(s_item['text'].find(" ★")) >= 3 or len(s_item['text'].find("（")) >= 3\
+         or len(s_item['text'].find(" ★")) >= 3 or len(s_item['text'].find("（")) >= 3\
          or len(s_item['text'].find("：")) > 5 or len(s_item['text'].find("【")) > 2\
          or len(s_item['text'].find("、")) > 5 or '@' in s_item['text']\
          or '#' in s_item['text']:
