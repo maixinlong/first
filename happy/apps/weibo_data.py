@@ -119,7 +119,6 @@ def stat_user(search_time=None,force_update=False):
                     if not tmp_content.get('created_at'):continue
                     create_at.append(tmp_content['created_at'].split(' ')[3].split(':')[0])
                 if not create_at:
-                    print tmp_content.get('created_at'),'|no',search_time,types
                 user.stat_info[search_time] = {}
                 user.stat_info[search_time] = {'send_count':len(context),'create_at':create_at}
                 #print ,create_atuser.stat_info[search_time]
@@ -185,7 +184,7 @@ def get_content(weibo_type,user_id,debug=False,count=200,force_update=False):
                      'text_size':len(s_item['text'].decode('utf-8')),
                      
                      'avatar_large':s_item.get('user',{}).get('avatar_large'),
-                     'profile_image_url's_item.get('user',{}).get('profile_image_url'),
+                     'profile_image_url':s_item.get('user',{}).get('profile_image_url'),
                      
                      }
         #[时间][用户id] = [微博,微博,微博]
