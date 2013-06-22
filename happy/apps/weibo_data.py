@@ -32,9 +32,9 @@ for item in a:
 """
 
 """
-1.批量添加大类别 search_users("搞笑")
-2.批量获取大类别微博用户信息 search_user("搞笑")
-3.抓取内容这些微博用户 get_contents("搞笑")
+1.批量添加大类别 weibo_data.search_users("搞笑")
+2.批量获取大类别微博用户信息 weibo_data.search_user("搞笑")
+3.抓取内容这些微博用户 weibo_data.get_contents("搞笑")
 4.统计这些微博用户的数据stat_user(时间)
 """
 def search_users(keywords,count=100,debug=False):
@@ -155,7 +155,12 @@ def get_content(weibo_type,user_id,debug=False,count=200,force_update=False):
                 continue
             
         #filter列表包含这些内容不保存 可能是广告数据
-        if "http://" in s_item['text'] or "包邮" in s_item['text']:
+        if "http://" in s_item['text'] or "包邮" in s_item['text']\
+         or "www." in s_item['text'] or re.findall('[0-9]元',s_item['text'])\
+         len(s_item['text'].find(" ★")) >= 3 or len(s_item['text'].find("（")) >= 3\
+         or len(s_item['text'].find("：")) > 5 or len(s_item['text'].find("【")) > 2\
+         or len(s_item['text'].find("、")) > 5 or '@' in s_item['text']\
+         or '#' in s_item['text']:
             continue
         #不筛选gif图片
         if '.gif' in s_item.get('original_pic',''):
