@@ -150,7 +150,7 @@ def get_content(weibo_type,user_id,debug=False,count=200,force_update=False):
         if "http://" in s_item['text'] or "包邮" in s_item['text']:
             continue
         #不筛选gif图片
-        if '.gif' in s_item.get('original_pic'):
+        if '.gif' in s_item.get('original_pic',''):
             continue
         #判断字数大于200的话过滤
 #        if len(s_item['text'].decode('utf-8') >= 200):
