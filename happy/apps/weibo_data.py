@@ -160,12 +160,12 @@ def get_content(weibo_type,user_id,debug=False,count=200,force_update=False):
 #        if len(s_item['text'].decode('utf-8') >= 200):
 #            continue
         
-        #计算图片的大小
-        if s_item.get('original_pic'):
-            response = urllib.urlopen(url=s_item['original_pic'])
-            img_data = response.read()
-            io = cStringIO.StringIO(img_data)
-            s_item['width'],s_item['height'] = Image.open(io).size
+#        #计算图片的大小
+#        if s_item.get('original_pic'):
+#            response = urllib.urlopen(url=s_item['original_pic'])
+#            img_data = response.read()
+#            io = cStringIO.StringIO(img_data)
+#            s_item['width'],s_item['height'] = Image.open(io).size
             
         #格式化时间  按照时间分开存放内容
         created_at = s_item['created_at'].split(' ')
