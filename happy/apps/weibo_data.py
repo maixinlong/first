@@ -13,6 +13,7 @@ import redis
 import sys
 import urllib
 import urllib2
+import re
 
 #拿到微博对象
 client = get_robot.weibo
@@ -157,9 +158,9 @@ def get_content(weibo_type,user_id,debug=False,count=200,force_update=False):
         #filter列表包含这些内容不保存 可能是广告数据
         if "http://" in s_item['text'] or "包邮" in s_item['text']\
          or "www." in s_item['text'] or re.findall('[0-9]元',s_item['text'])\
-         or len(s_item['text'].find(" ★")) >= 3 or len(s_item['text'].find("（")) >= 3\
-         or len(s_item['text'].find("：")) > 5 or len(s_item['text'].find("【")) > 2\
-         or len(s_item['text'].find("、")) > 5 or '@' in s_item['text']\
+         or s_item['text'].count(" ★") >= 3 or s_item['text'].count("（") >= 3\
+         or s_item['text'].count("：") > 5 or s_item['text'].count("【") > 2\
+         or s_item['text'].count("、") > 5 or '@' in s_item['text']\
          or '#' in s_item['text']:
             continue
         #不筛选gif图片
