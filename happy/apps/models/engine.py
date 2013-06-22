@@ -9,7 +9,16 @@ from django.conf import settings
 import pickle
 import copy
 
-engins = settings.ENGINS
+#engins = settings.ENGINS
+engins = {"redis" : {
+        "class" : "cache.redis_client.RedisClient",
+        "config" : {
+            "host" : "localhost",
+            "port" : 6379,
+            "db":1,
+             }
+        },
+      }
 
 def import_by_name(name):
     """
@@ -42,7 +51,7 @@ class Engine(object):
         """
         生成key
         """
-        return settings.MEMCACHE_KEY + "|" + cls.__module__ + "." + cls.__name__ + '|' + str(pkey)    
+        return 'FIRST|MEMCACHE' + "|" + cls.__module__ + "." + cls.__name__ + '|' + str(pkey)    
     
     def get_pkey(self):
         """
@@ -88,7 +97,6 @@ class Engine(object):
         print pkey
         for engine_name in engins:
             engine_obj = app[engine_name]
-            print pkey
             engine_obj.put_data(cls, pkey, data, False)
     
     def put_only_bottom(self):

@@ -5,12 +5,84 @@
 <h1><a href="https://developer.apple.com/">Apple Developer</a></h1>
 </div> 
  -->
+<script type="text/javascript" src="http://newfarm1.dev.haalee.com/static/admin/Calendar3.js"></script>
+</head>
  
 {%for item in url_list%}
 <a href="{{item.0}}" >{{item.1}}</a>&nbsp;
 {%endfor%}<br/><br/><br/>
 
+{#遍历时间#}
+{%for item in time_list%}
+{%if '月1日' in item.0%}
+<br/>
+{%endif%}
+<a href="/admin/weibo_info/?search_time={{item.1}}&search_type={{search_type}}&sort={{sort}}" >
+{%if item.1 == search_time%}
+<font color="red">{{item.0}}</font>
+{%else%}
+{{item.0}}
+{%endif%}
+</a>&nbsp;
+{%endfor%}
+<br/><br/>
 
+
+
+{#分类 类别#}
+{%for item in types%}
+<a href="/admin/weibo_info/?search_time={{search_time}}&search_type={{item}}&sort={{sort}}" >
+{%if search_type == item%}
+<font color="red">{{item}}</font>
+{%else%}
+{{item}}
+{%endif%}
+</a>&nbsp;
+{%endfor%}
+<br/><br/>
+
+{#排序规则#}
+{%for k,v in sort_rule.iteritems%}
+<a href="/admin/weibo_info/?search_time={{search_time}}&search_type={{search_type}}&sort={{k}}" >
+{%if sort == k%}
+<font color="red">{{v.0}}</font>
+{%else%}
+{{v.0}}
+{%endif%}
+</a>&nbsp;
+{%endfor%}
+<br/><br/>
+
+{#内容显示#}
+{%for key,contents in contents.iteritems%}
+************************************************************************************************************************
+{%for item in contents%}
+
+<table  border="1">
+  <tr>
+    <td colspan="2">
+    <img src="http://tp1.sinaimg.cn/1404376560/50/0/1"  align="left" width="35" height="35"/>
+    <font color="red">{{item.user.screen_name}}</font>&nbsp;
+    评论数:{{item.comments_count}}&nbsp;转发数:{{item.reposts_count}}&nbsp;赞数:{{item.attitudes_count}}&nbsp;发布时间:{{item.created_at}}
+    </td>
+  </tr>
+  <tr>
+    <td rowspan="2" >
+    {{item.text}}<br/><br/>
+    <img src="{{item.original_pic}}"  align="left" width="310" />
+</td>
+    <td >&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+{%endfor%}
+{%endfor%}
+
+
+
+<!--  
 <table border="1">
   <tr>
     <td>微博名称</td>
@@ -23,18 +95,21 @@
     <td>平均发微博时间</td>
     <td>平均用户评论时间</td>
   </tr>
+  {%for item in users%}
   <tr>
-    <td></td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-     <td>&nbsp;</td>
-     <td>&nbsp;</td>
+    <td>{{item.uid}}</td>
+    <td>{{item.statuses_count}}</td>
+    <td>{{item.followers_count}}</td>
+     <td>{{item.profile_image_url}}</td>
+     <td>{{itemavatar_large}}</td>
     <td>&nbsp;</td>
      <td>&nbsp;</td>
       <td>&nbsp;</td>
        <td>&nbsp;</td>
   </tr>
+  {%endfor%}
  
 </table>
+-->
 
 </html>

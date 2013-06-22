@@ -8,10 +8,64 @@
 {%for item in url_list%}
 <a href="{{item.0}}" >{{item.1}}</a>&nbsp;
 {%endfor%}
+<br/><br/>
 
-<frameset rows="100,*"> 
-<frame name="top" src="about:blank"> 
-<frame name="bottomFram" src="c.html" id="bottomFram" title="bottomFram"> 
-</frameset> 
+{#遍历时间#}
+{%for item in time_list%}
+{%if '月1日' in item.0%}
+<br/>
+{%endif%}
+<a href="/admin/weibo_users/?search_time={{item.1}}&search_type={{search_type}}&sort={{sort}}" >
+{%if item.1 == search_time%}
+<font color="red">{{item.0}}</font>
+{%else%}
+{{item.0}}
+{%endif%}
+</a>&nbsp;
+{%endfor%}
+<br/><br/>
+
+
+{#分类 类别#}
+{%for item in types%}
+<a href="/admin/weibo_users/?search_time={{search_time}}&search_type={{item}}&sort={{sort}}" >
+{%if search_type == item%}
+<font color="red">{{item}}</font>
+{%else%}
+{{item}}
+{%endif%}
+</a>&nbsp;
+{%endfor%}
+<br/><br/>
+
+
+<table border="1">
+  <tr>
+    <td>微博名称</td>
+    <td>每天微博数</td>
+    <td>粉丝数</td>
+    <td>每日发送时间</td>
+    <td>每日转发</td>
+    <td>每日赞</td>
+    <td>平均用户参与度</td>
+    <td>平均发微博时间</td>
+    <td>平均用户评论时间</td>
+  </tr>
+  {%for item in user_list%}
+  <tr>
+    <td>{{item.user_name}}</td>
+    <td>{{item.send_count}}</td>
+    <td>{{item.followers_count}}</td>
+     <td>{{item.create_at}}</td>
+     <td>{{itemavatar_large}}</td>
+    <td>&nbsp;</td>
+     <td>&nbsp;</td>
+      <td>&nbsp;</td>
+       <td>&nbsp;</td>
+  </tr>
+  {%endfor%}
+ 
+</table>
+
 
 </html>

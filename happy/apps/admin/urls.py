@@ -12,6 +12,7 @@ urlpatterns = patterns('apps.admin.views.admin',
     
     )
 
+#微博用户统计数据
 urlpatterns += patterns('apps.admin.views.weibo_info',
     (r'^weibo_users/$', 'weibo_users'),
     (r'^weibo_info/$', 'weibo_info'),

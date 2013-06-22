@@ -1,21 +1,20 @@
 #coding=utf-8
 
+"""
+微博的统计信息
+"""
+
 from datetime import date
 from models.engine import Engine
 import datetime
 
-class Weibo(Engine):
+class WeiboStat(Engine):
     
-    def __init__(self,uid):
+    def __init__(self,time_s):
         Engine.__init__(self)
         
-        self.uid = uid              # 用户ID
-        self.statuses_count = 0     #微博数
-        self.screen_name = ''       #用户名称
-        self.followers_count = 0    #粉丝数
-        self.profile_image_url = "" #用户小头像地址
-        self.avatar_large = ""      #用户大头像地址
-        self.stat_info = {}          #当前微博用户的统计信息
+        self.uid = time_s              # 用户ID
+        
         self.other_info = {}        # 扩展信息
         
     @classmethod
@@ -32,8 +31,9 @@ class Weibo(Engine):
     
     @classmethod
     def get(cls, uid):
-        obj = super(Weibo, cls).get(int(uid))
+        obj = super(Weibo, cls).get(uid)
         return obj
+    
         
 
 
