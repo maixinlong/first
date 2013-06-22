@@ -146,6 +146,10 @@ def get_content(weibo_type,user_id,debug=False,count=200,force_update=False):
     #遍历所有发的帖子 前100条
     for s_item in contents['statuses']:
         
+        #可能是转帖 所以需要再取一次
+        if not s_item.get('original_pic'):
+            s_item['original_pic'] = s_item['retweeted_status']['original_pic']
+            
         #filter列表包含这些内容不保存 可能是广告数据
         if "http://" in s_item['text'] or "包邮" in s_item['text']:
             continue
@@ -180,7 +184,6 @@ def get_content(weibo_type,user_id,debug=False,count=200,force_update=False):
                      'bmiddle_pic':s_item.get('bmiddle_pic'),
                      'original_pic':s_item.get('original_pic'),
                      'thumbnail_pic':s_item.get('thumbnail_pic'),
-                     'thumbnail_pic':s_item.get('created_at'),
                      'reposts_count':s_item.get('reposts_count'),
                      'comments_count':s_item.get('comments_count'),
                      'attitudes_count':s_item.get('attitudes_count'),
