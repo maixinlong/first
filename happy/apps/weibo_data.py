@@ -118,7 +118,6 @@ def stat_user(search_time=None,force_update=False):
                 for tmp_content in context:
                     if not tmp_content.get('created_at'):continue
                     create_at.append(tmp_content['created_at'].split(' ')[3].split(':')[0])
-                if not create_at:
                 user.stat_info[search_time] = {}
                 user.stat_info[search_time] = {'send_count':len(context),'create_at':create_at}
                 #print ,create_atuser.stat_info[search_time]
