@@ -57,13 +57,12 @@
 {%for key,contents in contents.iteritems%}
 ************************************************************************************************************************
 {%for item in contents%}
-
 <table  border="1">
   <tr>
     <td colspan="2">
     <img src="http://tp1.sinaimg.cn/1404376560/50/0/1"  align="left" width="35" height="35"/>
-    <font color="red">{{item.user.screen_name}}</font>&nbsp;
-    评论数:{{item.comments_count}}&nbsp;转发数:{{item.reposts_count}}&nbsp;赞数:{{item.attitudes_count}}&nbsp;发布时间:{{item.created_at}}
+    <font color="red">{{item.screen_name}}</font>&nbsp;
+    评论数:{{item.comments_count}}&nbsp;转发数:{{item.reposts_count}}&nbsp;赞数:{{item.attitudes_count}}&nbsp;发布时间:{{item.thumbnail_pic}}
     </td>
   </tr>
   <tr>
