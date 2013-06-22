@@ -30,6 +30,13 @@ import weibo_data
 for item in a:
     weibo_data.stat_user(item)
 """
+
+"""
+1.批量添加大类别 search_users("搞笑")
+2.批量获取大类别微博用户信息 search_user("搞笑")
+3.抓取内容这些微博用户 get_contents("搞笑")
+4.统计这些微博用户的数据stat_user(时间)
+"""
 def search_users(keywords,count=100,debug=False):
     """
     搜索关键字查询类别
@@ -89,7 +96,7 @@ def search_user(keywords,debug=False,force_update=False):
         print "ok"
 
 def get_contents(weibo_type,debug=False,force_update=False):
-    """w
+    """
     批量抓取类别的所有用户数据
     """
     slen = len(weibo_user.users[weibo_type])
@@ -153,7 +160,7 @@ def get_content(weibo_type,user_id,debug=False,count=200,force_update=False):
         if s_item.get('original_pic'):
             response = urllib.urlopen(url=s_item['original_pic'])
             img_data = response.read()
-            io = cStringIO.StringIO(data)
+            io = cStringIO.StringIO(img_data)
             s_item['width'],s_item['height'] = Image.open(io).size
             
         #格式化时间  按照时间分开存放内容
