@@ -11,3 +11,9 @@ urlpatterns = patterns('',
     url(r'^admin/',include('apps.admin.urls'),name = "admin"),
 ) 
 
+
+urlpatterns += patterns('apps.views.content',
+    (r'^get_content/$', 'get_content'),
+    
+    )
+

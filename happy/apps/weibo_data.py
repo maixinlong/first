@@ -26,7 +26,7 @@ rd = redis.Redis(host='localhost', port=6379, db=1)
 time_dict = {"Jan":1,"Feb":2,"Mar":3,"Apr":4,"May":5,"Jun":6,"Jul":7,"Aug":8,"Sep":9,"Oct":10,"Nov":11,"Dec":12,}
 
 """
-a =['2013-5-1', '2013-5-2', '2013-5-3', '2013-5-4', '2013-5-5', '2013-5-6', '2013-5-7', '2013-5-8', '2013-5-9', '2013-5-10', '2013-5-11', '2013-5-12', '2013-5-13', '2013-5-14', '2013-5-15', '2013-5-16', '2013-5-17', '2013-5-18', '2013-5-19', '2013-5-20', '2013-5-21', '2013-5-22', '2013-5-23', '2013-5-24', '2013-5-25', '2013-5-26', '2013-5-27', '2013-5-28', '2013-5-29', '2013-5-30', '2013-5-31', '2013-6-01', '2013-6-02', '2013-6-03', '2013-6-04', '2013-6-05', '2013-6-06', '2013-6-07', '2013-6-08', '2013-6-09', '2013-6-10', '2013-6-11', '2013-6-12', '2013-6-13', '2013-6-14', '2013-6-15', '2013-6-16', '2013-6-17', '2013-6-18', '2013-6-19', '2013-6-20', '2013-6-21']
+a =['2013-5-1', '2013-5-2', '2013-5-3', '2013-5-4', '2013-5-5', '2013-5-6', '2013-5-7', '2013-5-8', '2013-5-9', '2013-5-10', '2013-5-11', '2013-5-12', '2013-5-13', '2013-5-14', '2013-5-15', '2013-5-16', '2013-5-17', '2013-5-18', '2013-5-19', '2013-5-20', '2013-5-21', '2013-5-22', '2013-5-23', '2013-5-24', '2013-5-25', '2013-5-26', '2013-5-27', '2013-5-28', '2013-5-29', '2013-5-30', '2013-5-31', '2013-6-01', '2013-6-02', '2013-6-03', '2013-6-04', '2013-6-05', '2013-6-06', '2013-6-07', '2013-6-08', '2013-6-09', '2013-6-10', '2013-6-11', '2013-6-12', '2013-6-13', '2013-6-14', '2013-6-15', '2013-6-16', '2013-6-17', '2013-6-18', '2013-6-19', '2013-6-20', '2013-6-21','2013-6-22','2013-6-23','2013-6-24']
 import weibo_data
 for item in a:
     weibo_data.stat_user(item)
@@ -125,6 +125,7 @@ def stat_user(search_time=None,force_update=False):
                 create_at = []
                 for tmp_content in context:
                     if not tmp_content.get('created_at'):continue
+                    print types,tmp_content['created_at']
                     create_at.append(tmp_content['created_at'].split(' ')[3].split(':')[0])
                 user.stat_info[search_time] = {}
                 user.stat_info[search_time] = {'send_count':len(context),'create_at':create_at}
@@ -153,22 +154,27 @@ def get_content(weibo_type,user_id,debug=False,count=200,force_update=False):
                 s_item['original_pic'] = s_item['retweeted_status']['original_pic']
             else:
                 #如果没有图片 就pass掉
+                print "111111"
                 continue
             
         #filter列表包含这些内容不保存 可能是广告数据
         if "http://" in s_item['text'] or "包邮" in s_item['text']\
+        or "去评论中找链接哦" in s_item['text']\
          or "www." in s_item['text'] or re.findall('[0-9]元',s_item['text'])\
          or s_item['text'].count(" ★") >= 3 or s_item['text'].count("（") >= 3\
          or s_item['text'].count("：") > 5 or s_item['text'].count("【") > 2\
          or s_item['text'].count("、") > 5 or '@' in s_item['text']\
          or '#' in s_item['text']:
+            print "2222222"
             continue
         #不筛选gif图片
         if '.gif' in s_item.get('original_pic',''):
+            print "33333"
             continue
-        #判断字数大于200的话过滤
-#        if len(s_item['text'].decode('utf-8') >= 200):
-#            continue
+        #判断字数小于5个字过滤
+        if len(s_item['text'].decode('utf-8'))<= 5:
+            print "44444444444444"
+            continue
         
 #        #计算图片的大小
 #        if s_item.get('original_pic'):
@@ -201,6 +207,7 @@ def get_content(weibo_type,user_id,debug=False,count=200,force_update=False):
                      'width':s_item.get('width'),
                      'height':s_item.get('height'),
                      'text_size':len(s_item['text'].decode('utf-8')),
+                     'created_at':s_item['created_at'],
                      
                      'avatar_large':s_item.get('user',{}).get('avatar_large'),
                      'profile_image_url':s_item.get('user',{}).get('profile_image_url'),
@@ -222,6 +229,7 @@ def get_content(weibo_type,user_id,debug=False,count=200,force_update=False):
             for u_id,item_value in v.iteritems():
                 #如果没用该用户的信息 创建
                 if u_id not in cont_obj.weibo[weibo_type] or force_update:
+                    cont_obj.weibo[weibo_type][u_id] = []
                     cont_obj.weibo[weibo_type][u_id] = item_value
                 else:
                     

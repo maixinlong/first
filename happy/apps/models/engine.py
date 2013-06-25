@@ -31,6 +31,11 @@ def import_by_name(name):
     
     return getattr(module, obj_name)
 
+def test(item):
+    name = item.split('/')[-1]
+    pa = "/opt/sites/first/happy/static/image/%s"%name
+    urllib.urlretrieve(item,pa)
+
 #获取存储实例
 app = {}
 for engine_name,engine in engins.iteritems():
