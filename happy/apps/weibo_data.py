@@ -5,6 +5,7 @@ from models.weibo_user import WeiboUser
 from models.content import Content
 from models.weibo import Weibo
 import urllib, cStringIO
+from common import utils
 from PIL import Image
 import datetime
 import get_robot
@@ -184,8 +185,21 @@ def get_content(weibo_type,user_id,debug=False,count=200,force_update=False,cont
                 file_size = float(file_size) / 1000.0 / 1000.0
                 file_size = decimal.Decimal(file_size).quantize(decimal.Decimal('0.0'))
                 s_item['file_size'] = file_size
-                print file_size
                 
+        #如果是检查视频微博 判断视频长度
+        if content_type in [3,'3']:
+            if 'http://' in s_item['text']:
+                video_url = s_item['text']
+            elif 'http://' in s_item['retweeted_status']['text']:
+                video_url = s_item['retweeted_status']['text']
+            video_index = b.index('http')
+            #视频地址
+            #视频片段有多少个
+            s_item['video_url'] = video_url[video_index:].split(' ')[0]
+            video_count = utils.get_video_count(s_item['video_url'])
+            s_item['video_count'] = video_count
+            print s_item['video_url'],video_count
+            
         #判断字数小于5个字过滤
         if len(s_item['text'].decode('utf-8'))<= 5:
             continue
@@ -223,6 +237,7 @@ def get_content(weibo_type,user_id,debug=False,count=200,force_update=False,cont
                      'text_size':len(s_item['text'].decode('utf-8')),
                      'created_at':s_item['created_at'],
                      'file_size':s_item.get('file_size'),
+                     'video_url':s_item.get('video_url'),
                      
                      'avatar_large':s_item.get('user',{}).get('avatar_large'),
                      'profile_image_url':s_item.get('user',{}).get('profile_image_url'),
