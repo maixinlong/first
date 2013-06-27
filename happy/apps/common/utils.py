@@ -21,6 +21,7 @@ from django.conf import settings
 from rklib.utils.cache import cache
 
 from apps.config import game_config
+from BeautifulSoup import BeautifulSoup
 
 def print_err():
     sys.stderr.write('==' * 30 + os.linesep)
@@ -440,3 +441,27 @@ def get_week(d_time):
         week_str = '日'
         
     return week_str
+
+def get_video_count(url):
+    """
+    计算视频地址的 分段源文件有多少个
+    """
+    video_count = 0
+    check_url = "http://www.flvcd.com/parse.php?format=&kw=%s"%urllib.urlopen(url)
+    html = urllib.urlopen(check_url)
+    html = html.read()
+    search_html = html.findAll(name='form',attrs={"name":"m3uForm"})[0]
+    
+    #返回一个数据 遍历取到value
+    #截取后第一位会有空格所以删除
+    if search_html.input.attrMap.get('value'):
+        filter_result = search_html.input.attrMap['value']
+        video_count = filter_result.count('http://')
+    
+    return get_video_count
+        
+    
+    
+    
+    
+    
