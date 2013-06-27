@@ -40,7 +40,25 @@
 </a>&nbsp;
 {%endfor%}
 <br/><br/>
-
+k = []
+import decimal
+for item in a:
+    response = urllib.urlopen(item)
+    response_dict = dict(response.headers)
+    file_size = response_dict.get('content-length')
+    file_size = float(file_size) / 1000.0 / 1000.0
+    file_size = decimal.Decimal(file_size).quantize(decimal.Decimal('0.0'))
+	it = {
+		'content':'我是测试 我只为自己代言',
+		'created_at':'',
+		'id':123456,
+		'image':item,
+		'source':'新浪',
+		'source_url':'',
+		'file_size':file_size,
+		}
+	k.append(it)
+		
 {#排序规则#}
 {%for k,v in sort_rule.iteritems%}
 <a href="/admin/weibo_info/?search_time={{search_time}}&search_type={{search_type}}&sort={{k}}" >

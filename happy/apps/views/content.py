@@ -16,6 +16,14 @@ def get_content(request):
     datas = pickle.loads(datas)
     datas = datas[:page*20]
     
+    if types == "dynamic":
+        datas = rd.get('liuxin_gif')
+        datas = pickle.loads(datas)
+        datas = datas[:page*20]
+        datas.sort(key=lambda a:(a.get('file_size')), reverse=False)
+    
+    
+    
     #data = json.dumps(,sort_keys=True,indent=4, separators=(',', ': '))
     data = json.JSONEncoder().encode( {'num':20,'list':datas} )
     print data

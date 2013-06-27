@@ -13,34 +13,3 @@
 <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="/admin/weibo_users/" target="mainFrame"> 微博用户统计</a><br/><br/>
 </html>
-
-b = []
-
-for k,v in c.iteritems():
-	for item in v:
-	    kk = {
-	    'content':item['text'],
-	    'image':item['original_pic'],
-	    'id':item['id'],
-	    'created_at':item.get('created_at'),
-	    'source':item['screen_name'],
-	    'source_url':'',
-	    }
-	    b.append(kk)
-
-地址:http://newfarm1.dev.haalee.com/get_content/
-get:参数page=2  翻页的参数 
-返回结果：
-{
-'num':返回数量,
-'list':[ 数据列表
-		{
-		'content':文本内容,
-		'created_at':时间,
-		'id':帖子id 唯一的id,
-		'image':图片地址,  注意有可能是gif图 安全起见加个判断吧如果为空 不显示本条内容
-		'source':来源 XXX的微博,
-		'source_url':来源url 连接到他的微博地址,
-		},...
-		],
-}

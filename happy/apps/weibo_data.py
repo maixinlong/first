@@ -13,6 +13,7 @@ import redis
 import sys
 import urllib
 import urllib2
+import decimal
 import re
 
 #拿到微博对象
@@ -26,7 +27,7 @@ rd = redis.Redis(host='localhost', port=6379, db=1)
 time_dict = {"Jan":1,"Feb":2,"Mar":3,"Apr":4,"May":5,"Jun":6,"Jul":7,"Aug":8,"Sep":9,"Oct":10,"Nov":11,"Dec":12,}
 
 """
-a =['2013-5-1', '2013-5-2', '2013-5-3', '2013-5-4', '2013-5-5', '2013-5-6', '2013-5-7', '2013-5-8', '2013-5-9', '2013-5-10', '2013-5-11', '2013-5-12', '2013-5-13', '2013-5-14', '2013-5-15', '2013-5-16', '2013-5-17', '2013-5-18', '2013-5-19', '2013-5-20', '2013-5-21', '2013-5-22', '2013-5-23', '2013-5-24', '2013-5-25', '2013-5-26', '2013-5-27', '2013-5-28', '2013-5-29', '2013-5-30', '2013-5-31', '2013-6-01', '2013-6-02', '2013-6-03', '2013-6-04', '2013-6-05', '2013-6-06', '2013-6-07', '2013-6-08', '2013-6-09', '2013-6-10', '2013-6-11', '2013-6-12', '2013-6-13', '2013-6-14', '2013-6-15', '2013-6-16', '2013-6-17', '2013-6-18', '2013-6-19', '2013-6-20', '2013-6-21','2013-6-22','2013-6-23','2013-6-24']
+a =['2013-5-1', '2013-5-2', '2013-5-3', '2013-5-4', '2013-5-5', '2013-5-6', '2013-5-7', '2013-5-8', '2013-5-9', '2013-5-10', '2013-5-11', '2013-5-12', '2013-5-13', '2013-5-14', '2013-5-15', '2013-5-16', '2013-5-17', '2013-5-18', '2013-5-19', '2013-5-20', '2013-5-21', '2013-5-22', '2013-5-23', '2013-5-24', '2013-5-25', '2013-5-26', '2013-5-27', '2013-5-28', '2013-5-29', '2013-5-30', '2013-5-31', '2013-6-01', '2013-6-02', '2013-6-03', '2013-6-04', '2013-6-05', '2013-6-06', '2013-6-07', '2013-6-08', '2013-6-09', '2013-6-10', '2013-6-11', '2013-6-12', '2013-6-13', '2013-6-14', '2013-6-15', '2013-6-16', '2013-6-17', '2013-6-18', '2013-6-19', '2013-6-20', '2013-6-21','2013-6-22','2013-6-23','2013-6-24','2013-6-25','2013-6-26','2013-6-27']
 import weibo_data
 for item in a:
     weibo_data.stat_user(item)
@@ -76,7 +77,11 @@ def search_user(keywords,debug=False,force_update=False):
             continue
         
         #item:微博id
-        result = client.users.show.get(uid=item)
+        try:
+            result = client.users.show.get(uid=item)
+        except Exception,e:
+            print e
+            continue
         user_info = dict(result)
         if not wb:
             wb = Weibo._install(item)
@@ -96,15 +101,17 @@ def search_user(keywords,debug=False,force_update=False):
         wb.put()
         print "ok"
 
-def get_contents(weibo_type,debug=False,force_update=False):
+def get_contents(weibo_type,debug=False,force_update=False,content_type=0):
     """
     批量抓取类别的所有用户数据
+    force_update:强制更新
+    content_type: 0全部，1原创，2图片，3视频，4音乐
     """
     slen = len(weibo_user.users[weibo_type])
     for item in weibo_user.users[weibo_type]:
         slen-=1
         print slen
-        get_content(weibo_type,item,debug=debug,force_update=force_update)
+        get_content(weibo_type,item,debug=debug,force_update=force_update,content_type=content_type)
         
 def stat_user(search_time=None,force_update=False):
     """
@@ -132,18 +139,19 @@ def stat_user(search_time=None,force_update=False):
                 #print ,create_atuser.stat_info[search_time]
                 user.put()
         
-def get_content(weibo_type,user_id,debug=False,count=200,force_update=False):
+def get_content(weibo_type,user_id,debug=False,count=200,force_update=False,content_type=0):
     """
     抓取微博内容
     weibo_type:微博类型  注意需要是已经存在的类别
     user_id:微博的id 注意这里不是微博名字 是微博id 
     debug:调试模式 不插入数据库
     force_update:强制更新  删除所有 重新获取
+    content_type:0全部，1原创，2图片，3视频，4音乐
     """
     content_dict = {}
     #ty:时尚 美图 旅游 搞笑.....
     #用户id
-    result = client.statuses.user_timeline.get(uid=user_id,count=count)
+    result = client.statuses.user_timeline.get(uid=user_id,count=count,feature=content_type)
     contents = dict(result)
     #遍历所有发的帖子 前100条
     for s_item in contents['statuses']:
@@ -154,7 +162,6 @@ def get_content(weibo_type,user_id,debug=False,count=200,force_update=False):
                 s_item['original_pic'] = s_item['retweeted_status']['original_pic']
             else:
                 #如果没有图片 就pass掉
-                print "111111"
                 continue
             
         #filter列表包含这些内容不保存 可能是广告数据
@@ -165,15 +172,22 @@ def get_content(weibo_type,user_id,debug=False,count=200,force_update=False):
          or s_item['text'].count("：") > 5 or s_item['text'].count("【") > 2\
          or s_item['text'].count("、") > 5 or '@' in s_item['text']\
          or '#' in s_item['text']:
-            print "2222222"
             continue
-        #不筛选gif图片
+        
+        #gif图片单独存放
         if '.gif' in s_item.get('original_pic',''):
-            print "33333"
-            continue
+            response = urllib.urlopen(url=s_item['original_pic'])
+            response_dict = dict(response.headers)
+            file_size = response_dict.get('content-length')
+            if file_size:
+                #计算他是多少M的大小
+                file_size = float(file_size) / 1000.0 / 1000.0
+                file_size = decimal.Decimal(file_size).quantize(decimal.Decimal('0.0'))
+                s_item['file_size'] = file_size
+                print file_size
+                
         #判断字数小于5个字过滤
         if len(s_item['text'].decode('utf-8'))<= 5:
-            print "44444444444444"
             continue
         
 #        #计算图片的大小
@@ -208,6 +222,7 @@ def get_content(weibo_type,user_id,debug=False,count=200,force_update=False):
                      'height':s_item.get('height'),
                      'text_size':len(s_item['text'].decode('utf-8')),
                      'created_at':s_item['created_at'],
+                     'file_size':s_item.get('file_size'),
                      
                      'avatar_large':s_item.get('user',{}).get('avatar_large'),
                      'profile_image_url':s_item.get('user',{}).get('profile_image_url'),
