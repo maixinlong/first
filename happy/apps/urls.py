@@ -14,6 +14,7 @@ urlpatterns = patterns('',
 
 urlpatterns += patterns('apps.views.content',
     (r'^get_content/$', 'get_content'),
+    (r'^update_content/$', 'update_content'),
     
     )
 

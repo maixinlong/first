@@ -50,7 +50,7 @@ def update_content(request):
 
 
 def get_content(request):
-    ＃types = request.GET.get('type','fine')
+    types = request.GET.get('type','fine')
     #last_id 得初次加载时传上去
     last_id = request.GET.get('last_id',0)
     
