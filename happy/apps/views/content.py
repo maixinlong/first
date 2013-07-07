@@ -62,7 +62,7 @@ def get_content(request):
     for i in datas:
         if i['id'] == last_id:
             index = datas.index(i)
-            datas = datas[:index+20]
+            datas = datas[index+1:index+20]
             break
     last_id = datas[-1]['id']
     data = json.JSONEncoder().encode( {'last_id':last_id,'list':datas} )
