@@ -22,7 +22,7 @@ def save(types,datas):
     obj = ''
     num = 0 
     if types in ['fine','video','amuse','dynamic']:
-	obj = db[types].insert(datas)
+        obj = db[types].insert(datas)
     print 'save success...'
 
 
@@ -34,11 +34,11 @@ def get(num=-1,types=None,new=False):
     """
     datas = {}
     if types not in ['fine','video','amuse','dynamic']:
-	return datas,-2
+        return datas,-2
     count = db[types].find().count()
     num = int(num)
     if num >= count or count <= 0:
-	 return {},-1
+        return {},-1
 
     if new:
         datas = db[types].find().skip(count-1)[0]
@@ -47,7 +47,7 @@ def get(num=-1,types=None,new=False):
     if num < 0:
         return datas,num
     else:
-	datas = db[types].find().skip(num)[0]
+        datas = db[types].find().skip(num)[0]
     return datas,num-1
 
 
@@ -57,6 +57,6 @@ if __name__ == "__main__":
 
 
     for j in range(5555,5556):
-	datas,next_num = get(num=j,types='fine')
-	print next_num
-	print datas
+        datas,next_num = get(num=j,types='fine')
+        print next_num
+        print datas
